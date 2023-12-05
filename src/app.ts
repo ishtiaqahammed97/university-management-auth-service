@@ -1,8 +1,9 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application } from 'express'
 const app: Application = express()
 // const port = 3000
 import cors from 'cors'
-import usersRouter from './app/modules/users/users.route'
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
+import { UserRoutes } from './app/modules/users/user.route'
 
 app.use(cors())
 
@@ -11,11 +12,17 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Application routes
-app.use('/api/v1/users/', usersRouter)
+app.use('/api/v1/users/', UserRoutes)
+
+// Api error -> Error handler
 
 // Testing purpose
-app.get('/', (req: Request, res: Response) => {
-  res.send('Working successfully')
-})
+// app.get('/', (req: Request, res: Response, next: NextFunction) => {
+//   // throw new ApiError(400, 'This is error')
+//   next('Oh my God! This is bug')
+// })
+
+// global error handler
+app.use(globalErrorHandler)
 
 export default app
