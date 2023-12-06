@@ -1,5 +1,5 @@
 import { createLogger, format, transports } from 'winston'
-const { combine, timestamp, label, printf, prettyPrint } = format
+const { combine, timestamp, label, printf } = format
 import DailyRotateFile from 'winston-daily-rotate-file'
 import path from 'path'
 
@@ -14,7 +14,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 
 const logger = createLogger({
   level: 'info',
-  format: combine(label({ label: 'PH' }), timestamp(), myFormat, prettyPrint()),
+  format: combine(label({ label: 'PH' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
@@ -25,7 +25,7 @@ const logger = createLogger({
         'successes',
         'phu-%DATE%-success.log',
       ),
-      datePattern: 'YYYY-MM-DD-HH',
+      datePattern: 'YYYY-DD-MM-HH',
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
@@ -35,12 +35,7 @@ const logger = createLogger({
 
 const errorLogger = createLogger({
   level: 'error',
-  format: combine(
-    label({ label: 'right meow!' }),
-    timestamp(),
-    myFormat,
-    prettyPrint(),
-  ),
+  format: combine(label({ label: 'PH' }), timestamp(), myFormat),
   transports: [
     new transports.Console(),
     new DailyRotateFile({
@@ -48,10 +43,10 @@ const errorLogger = createLogger({
         process.cwd(),
         'logs',
         'winston',
-        'error',
+        'errors',
         'phu-%DATE%-error.log',
       ),
-      datePattern: 'YYYY-MM-DD-HH',
+      datePattern: 'YYYY-DD-MM-HH',
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',

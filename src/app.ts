@@ -14,12 +14,9 @@ app.use(express.urlencoded({ extended: true }))
 // Application routes
 app.use('/api/v1/users/', UserRoutes)
 
-// Api error -> Error handler
-
 // Testing purpose
-// app.get('/', (req: Request, res: Response, next: NextFunction) => {
-//   // throw new ApiError(400, 'This is error')
-//   next('Oh my God! This is bug')
+// app.get('/', async (req: Request, res: Response, next: NextFunction) => {
+//   throw new Error('Testing error logger')
 // })
 
 // global error handler
