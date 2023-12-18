@@ -9,13 +9,13 @@ const createUser = catchAsync(
     const { users } = req.body
     const result = await UserService.createUser(users)
 
-    next()
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'User Created Successfully',
       data: result,
     })
+    next()
   },
 )
 
