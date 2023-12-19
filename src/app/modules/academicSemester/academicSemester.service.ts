@@ -5,6 +5,7 @@ import { academicSemesterTitleCodeMapper } from './academicSemester.constant'
 import { IAcademicSemester } from './academicSemester.interface'
 import { AcademicSemester } from './academicSemester.model'
 import { IGenericResponse } from '../../../interfaces/common'
+import { paginationHelpers } from '../../../Helpers/paginationHelpers'
 
 const createSemester = async (payload: IAcademicSemester) => {
   if (academicSemesterTitleCodeMapper[payload.title] !== payload.code) {
@@ -19,9 +20,8 @@ const createSemester = async (payload: IAcademicSemester) => {
 const getAllSemester = async (
   paginationOptions: IPaginationOptions,
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
-  const { page = 1, limit = 10 } = paginationOptions
-
-  const skip = (page - 1) * limit
+  const { page, limit, skip } =
+    paginationHelpers.calculatePagination(paginationOptions)
 
   // query
   const result = await AcademicSemester.find().sort().skip(skip).limit(limit)
