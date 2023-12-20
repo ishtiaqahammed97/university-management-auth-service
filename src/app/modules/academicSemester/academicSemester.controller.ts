@@ -34,9 +34,11 @@ const getAllSemester = catchAsync(
     //   sortOrder: req.query.sortOrder,
     // }
 
+    const filters = pick(req.query, ['searchTerm'])
     const paginationOptions = pick(req.query, paginationFields)
 
     const result = await AcademicSemesterService.getAllSemester(
+      filters,
       paginationOptions,
     )
 

@@ -2,7 +2,10 @@ import { IPaginationOptions } from './../../../interfaces/pagination'
 import httpStatus from 'http-status'
 import ApiError from '../../../errors/ApiError'
 import { academicSemesterTitleCodeMapper } from './academicSemester.constant'
-import { IAcademicSemester } from './academicSemester.interface'
+import {
+  IAcademicSemester,
+  IAcademicSemesterFilters,
+} from './academicSemester.interface'
 import { AcademicSemester } from './academicSemester.model'
 import { IGenericResponse } from '../../../interfaces/common'
 import { paginationHelpers } from '../../../Helpers/paginationHelpers'
@@ -19,8 +22,51 @@ const createSemester = async (payload: IAcademicSemester) => {
 }
 
 const getAllSemester = async (
+  filters: IAcademicSemesterFilters,
   paginationOptions: IPaginationOptions,
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
+  // dynamic searching
+  const { searchTerm } = filters
+
+  const academicSemesterSearchableFields = ['title', 'year', 'code']
+  const andConditions = []
+
+  if (searchTerm) {
+    andConditions.push({
+      $or: academicSemesterSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  // const andConditions = [
+  //   {
+  //     $or: [
+  //       {
+  //         title: {
+  //           $regex: searchTerm,
+  //           $options: 'i',
+  //         },
+  //       },
+  //       {
+  //         year: {
+  //           $regex: searchTerm,
+  //           $options: 'i',
+  //         },
+  //       },
+  //       {
+  //         code: {
+  //           $regex: searchTerm,
+  //           $options: 'i',
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ]
+
   const { page, limit, sortBy, sortOrder, skip } =
     paginationHelpers.calculatePagination(paginationOptions)
 
@@ -32,7 +78,10 @@ const getAllSemester = async (
   }
 
   // query
-  const result = await AcademicSemester.find().sort().skip(skip).limit(limit)
+  const result = await AcademicSemester.find({ $and: andConditions })
+    .sort()
+    .skip(skip)
+    .limit(limit)
 
   const total = await AcademicSemester.countDocuments()
 
