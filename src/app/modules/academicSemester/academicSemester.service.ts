@@ -1,7 +1,10 @@
 import { IPaginationOptions } from './../../../interfaces/pagination'
 import httpStatus from 'http-status'
 import ApiError from '../../../errors/ApiError'
-import { academicSemesterTitleCodeMapper } from './academicSemester.constant'
+import {
+  academicSemesterSearchableFields,
+  academicSemesterTitleCodeMapper,
+} from './academicSemester.constant'
 import {
   IAcademicSemester,
   IAcademicSemesterFilters,
@@ -26,9 +29,10 @@ const getAllSemester = async (
   paginationOptions: IPaginationOptions,
 ): Promise<IGenericResponse<IAcademicSemester[]>> => {
   // dynamic searching
-  const { searchTerm } = filters
+  const { searchTerm, ...filtersData } = filters
 
-  const academicSemesterSearchableFields = ['title', 'year', 'code']
+  // console.log(filtersData)
+
   const andConditions = []
 
   if (searchTerm) {
@@ -38,6 +42,32 @@ const getAllSemester = async (
           $regex: searchTerm,
           $options: 'i',
         },
+      })),
+    })
+  }
+
+  // console.log(Object.entries(filtersData))
+
+  // if (Object.keys(filtersData).length) {
+  //   $and: [
+  //     {
+  //       title: filtersData.title
+  //     },
+  //     {
+  //       code: filtersData.code
+  //     },
+  //     {
+  //       year: filtersData.year
+  //     }
+  //   }
+  //   ]
+  // }
+
+  // filter -> exact matching
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
       })),
     })
   }

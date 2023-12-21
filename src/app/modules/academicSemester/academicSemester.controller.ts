@@ -6,6 +6,7 @@ import httpStatus from 'http-status'
 import pick from '../../../shared/pick'
 import { paginationFields } from '../../../constants/pagination'
 import { IAcademicSemester } from './academicSemester.interface'
+import { filterableField } from './academicSemester.constant'
 
 const createSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -34,7 +35,7 @@ const getAllSemester = catchAsync(
     //   sortOrder: req.query.sortOrder,
     // }
 
-    const filters = pick(req.query, ['searchTerm'])
+    const filters = pick(req.query, filterableField)
     const paginationOptions = pick(req.query, paginationFields)
 
     const result = await AcademicSemesterService.getAllSemester(
