@@ -5,7 +5,8 @@ import {
   academicSemesterTitles,
 } from './academicSemester.constant'
 
-const academicSemesterZodSchema = z.object({
+// create zod schema for create semester
+const createAcademicSemesterZodSchema = z.object({
   body: z.object({
     title: z.enum([...academicSemesterTitles] as [string, ...string[]], {
       required_error: 'Title is required',
@@ -21,6 +22,41 @@ const academicSemesterZodSchema = z.object({
   }),
 })
 
+// zod zod schema for update semester
+const updateAcademicSemesterZodSchema = z
+  .object({
+    body: z.object({
+      title: z
+        .enum([...academicSemesterTitles] as [string, ...string[]], {
+          required_error: 'Title is required',
+        })
+        .optional(),
+      year: z.string({ required_error: 'Year is required' }).optional(),
+      code: z
+        .enum([...academicSemesterCodes] as [string, ...string[]])
+        .optional(),
+      startMonth: z
+        .enum([...academicSemesterMonths] as [string, ...string[]], {
+          required_error: 'Start month is require',
+        })
+        .optional(),
+      endMonth: z
+        .enum([...academicSemesterMonths] as [string, ...string[]], {
+          required_error: 'End month is require',
+        })
+        .optional(),
+    }),
+  })
+  .refine(
+    data =>
+      (data.body.title && data.body.code) ||
+      (!data.body.title && !data.body.code),
+    {
+      message: 'Either give both title & code or neither',
+    },
+  )
+
 export const AcademicSemesterValidation = {
-  academicSemesterZodSchema,
+  createAcademicSemesterZodSchema,
+  updateAcademicSemesterZodSchema,
 }
