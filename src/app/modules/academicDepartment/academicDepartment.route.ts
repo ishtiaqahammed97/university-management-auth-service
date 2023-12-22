@@ -12,6 +12,13 @@ router.post(
   ),
   AcademicDepartmentController.createDepartment,
 )
+router.patch(
+  '/:id',
+  validateRequest(
+    AcademicDepartmentValidation.updateAcademicDepartmentZodSchema,
+  ),
+  AcademicDepartmentController.updateDepartment,
+)
 
 router.get('/:id', AcademicDepartmentController.getSingleDepartment)
 

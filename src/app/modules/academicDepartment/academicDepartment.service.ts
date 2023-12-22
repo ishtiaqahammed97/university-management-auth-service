@@ -8,6 +8,7 @@ import {
   IAcademicDepartmentFilterableFields,
 } from './academicDepartment.interface'
 import { AcademicDepartment } from './academicDepartment.model'
+import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface'
 
 const createDepartment = async (
   payload: IAcademicDepartment,
@@ -90,8 +91,24 @@ const getSingleDepartment = async (
   return result
 }
 
+const updateDepartment = async (
+  id: string,
+  payload: Partial<IAcademicFaculty>,
+): Promise<IAcademicDepartment | null> => {
+  const result = await AcademicDepartment.findOneAndUpdate(
+    { _id: id },
+    payload,
+    {
+      new: true,
+    },
+  ).populate('academicFaculty')
+
+  return result
+}
+
 export const AcademicDepartmentService = {
   createDepartment,
   getAllDepartment,
   getSingleDepartment,
+  updateDepartment,
 }
