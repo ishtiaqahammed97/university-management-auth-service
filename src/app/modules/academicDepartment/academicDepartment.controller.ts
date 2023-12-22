@@ -4,6 +4,9 @@ import sendResponse from '../../../shared/sendResponse'
 import { IAcademicDepartment } from './academicDepartment.interface'
 import httpStatus from 'http-status'
 import { AcademicDepartmentService } from './academicDepartment.service'
+import pick from '../../../shared/pick'
+import { paginationFields } from '../../../constants/pagination'
+import { academicDepartmentFilterableFields } from './academicDepartment.constant'
 
 const createDepartment = catchAsync(async (req: Request, res: Response) => {
   const { ...academicDepartmentData } = req.body
@@ -19,6 +22,25 @@ const createDepartment = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getAllDepartment = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, academicDepartmentFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+
+  const result = await AcademicDepartmentService.getAllDepartment(
+    filters,
+    paginationOptions,
+  )
+
+  sendResponse<IAcademicDepartment[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Departments retrieved successfully',
+    meta: result.meta,
+    data: result.data,
+  })
+})
+
 export const AcademicDepartmentController = {
   createDepartment,
+  getAllDepartment,
 }
