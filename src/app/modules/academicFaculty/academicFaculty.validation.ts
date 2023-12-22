@@ -8,6 +8,16 @@ const createFacultyZodSchema = z.object({
   }),
 })
 
+// zod schema for update semester
+const updateAcademicFacultyZodSchema = z.object({
+  body: z.object({
+    title: z.string({
+      required_error: 'Title is required',
+    }),
+  }),
+})
+
 export const AcademicFacultyValidation = {
   createFacultyZodSchema,
+  updateAcademicFacultyZodSchema,
 }
