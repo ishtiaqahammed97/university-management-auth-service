@@ -22,7 +22,7 @@ const createAcademicSemesterZodSchema = z.object({
   }),
 })
 
-// zod zod schema for update semester
+// zod schema for update semester
 const updateAcademicSemesterZodSchema = z
   .object({
     body: z.object({
