@@ -8,7 +8,6 @@ const createFacultyZodSchema = z.object({
   }),
 })
 
-// zod schema for update semester
 const updateAcademicFacultyZodSchema = z.object({
   body: z.object({
     title: z.string({

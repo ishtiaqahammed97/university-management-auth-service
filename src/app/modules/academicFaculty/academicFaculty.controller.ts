@@ -3,16 +3,14 @@ import catchAsync from '../../../shared/catchAsync'
 import { IAcademicFaculty } from './academicFaculty.interface'
 import httpStatus from 'http-status'
 import sendResponse from '../../../shared/sendResponse'
-import { AcademicFacultyServices } from './academicFaculty.services'
+import { AcademicFacultyService } from './academicFaculty.service'
 import pick from '../../../shared/pick'
 import { paginationFields } from '../../../constants/pagination'
 import { academicFacultyFilterableFields } from './academicFaculty.constant'
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
   const { ...academicFacultyData } = req.body
-  const result = await AcademicFacultyServices.createFaculty(
-    academicFacultyData,
-  )
+  const result = await AcademicFacultyService.createFaculty(academicFacultyData)
 
   sendResponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
@@ -26,7 +24,7 @@ const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, academicFacultyFilterableFields)
   const paginationOptions = pick(req.query, paginationFields)
 
-  const result = await AcademicFacultyServices.getAllFaculty(
+  const result = await AcademicFacultyService.getAllFaculty(
     filters,
     paginationOptions,
   )
@@ -43,7 +41,7 @@ const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
 const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
 
-  const result = await AcademicFacultyServices.getSingleFaculty(id)
+  const result = await AcademicFacultyService.getSingleFaculty(id)
 
   sendResponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
@@ -57,7 +55,7 @@ const updateFaculty = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
   const updatedData = req.body
 
-  const result = await AcademicFacultyServices.updateFaculty(id, updatedData)
+  const result = await AcademicFacultyService.updateFaculty(id, updatedData)
 
   sendResponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
@@ -70,7 +68,7 @@ const updateFaculty = catchAsync(async (req: Request, res: Response) => {
 const deleteFaculty = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
 
-  const result = await AcademicFacultyServices.deleteFaculty(id)
+  const result = await AcademicFacultyService.deleteFaculty(id)
 
   sendResponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
