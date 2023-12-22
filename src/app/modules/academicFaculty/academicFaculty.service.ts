@@ -102,7 +102,7 @@ const deleteFaculty = async (id: string): Promise<IAcademicFaculty | null> => {
   return result
 }
 
-export const AcademicFacultyServices = {
+export const AcademicFacultyService = {
   createFaculty,
   getAllFaculty,
   getSingleFaculty,

@@ -12,10 +12,8 @@ router.post(
   ),
   AcademicDepartmentController.createDepartment,
 )
-
 router.get('/:id', AcademicDepartmentController.getSingleDepartment)
 router.get('/', AcademicDepartmentController.getAllDepartment)
-
 router.patch(
   '/:id',
   validateRequest(
@@ -23,7 +21,6 @@ router.patch(
   ),
   AcademicDepartmentController.updateDepartment,
 )
-
 router.delete('/:id', AcademicDepartmentController.deleteDepartment)
 
 export const AcademicDepartmentRoutes = router

@@ -20,7 +20,6 @@ const AcademicDepartmentSchema = new Schema<
       required: true,
     },
   },
-  // created at and updated at
   {
     timestamps: true,
     toJSON: {
