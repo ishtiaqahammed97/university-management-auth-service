@@ -25,4 +25,6 @@ router.patch(
   ManagementDepartmentController.updateManagementDepartment,
 )
 
+router.delete('/:id', ManagementDepartmentController.deleteManagementDepartment)
+
 export const ManagementDepartmentRoutes = router
