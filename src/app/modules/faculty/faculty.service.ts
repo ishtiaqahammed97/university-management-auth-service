@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { facultySearchableFields } from './faculty.constant'
 import { IGenericResponse } from '../../../interfaces/common'
 import { IPaginationOptions } from '../../../interfaces/pagination'
@@ -5,6 +6,8 @@ import { IFaculty, IFacultyFilters } from './faculty.interface'
 import { paginationHelpers } from '../../../Helpers/paginationHelpers'
 import { Faculty } from './faculty.model'
 import { SortOrder } from 'mongoose'
+import ApiError from '../../../errors/ApiError'
+import httpStatus from 'http-status'
 
 const getAllFaculty = async (
   filters: IFacultyFilters,
@@ -80,8 +83,36 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
   return result
 }
 
+const updateFaculty = async (
+  id: string,
+  payload: Partial<IFaculty>,
+): Promise<IFaculty | null> => {
+  const isExist = await Faculty.findOne({ id })
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found')
+  }
+
+  const { name, ...facultyData } = payload
+  const updateFacultyData: Partial<IFaculty> = { ...facultyData }
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}` as keyof Partial<IFaculty>
+      ;(updateFacultyData as any)[nameKey] = name[key as keyof typeof name]
+    })
+  }
+
+  const result = await Faculty.findOneAndUpdate({ id }, updateFacultyData, {
+    new: true,
+  })
+
+  return result
+}
+
 export const FacultyService = {
   getAllFaculty,
   getSingleFaculty,
   deleteFaculty,
+  updateFaculty,
 }
