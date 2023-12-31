@@ -68,6 +68,13 @@ const getAllFaculty = async (
   }
 }
 
+const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
+  const result = await Faculty.findById(id)
+
+  return result
+}
+
 export const FacultyService = {
   getAllFaculty,
+  getSingleFaculty,
 }

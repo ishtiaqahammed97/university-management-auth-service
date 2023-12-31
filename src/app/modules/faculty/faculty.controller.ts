@@ -23,6 +23,20 @@ const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  const result = await FacultyService.getSingleFaculty(id)
+
+  sendResponse<IFaculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty retrieved successfully',
+    data: result,
+  })
+})
+
 export const FacultyController = {
   getAllFaculty,
+  getSingleFaculty,
 }
