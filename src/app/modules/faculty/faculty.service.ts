@@ -74,7 +74,14 @@ const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
   return result
 }
 
+const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
+  const result = await Faculty.findByIdAndDelete(id)
+
+  return result
+}
+
 export const FacultyService = {
   getAllFaculty,
   getSingleFaculty,
+  deleteFaculty,
 }

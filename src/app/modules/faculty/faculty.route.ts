@@ -6,4 +6,6 @@ const router = express.Router()
 router.get('/:id', FacultyController.getSingleFaculty)
 router.get('/', FacultyController.getAllFaculty)
 
+router.delete('/:id', FacultyController.deleteFaculty)
+
 export const FacultyRoutes = router
