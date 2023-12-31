@@ -16,8 +16,6 @@ const getAllFaculty = async (
   // dynamic searching
   const { searchTerm, ...filtersData } = filters
 
-  // console.log(filtersData)
-
   const andConditions = []
 
   if (searchTerm) {
@@ -90,23 +88,22 @@ const updateFaculty = async (
   const isExist = await Faculty.findOne({ id })
 
   if (!isExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found')
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !')
   }
 
-  const { name, ...facultyData } = payload
-  const updateFacultyData: Partial<IFaculty> = { ...facultyData }
+  const { name, ...FacultyData } = payload
+  const updatedFacultyData: Partial<IFaculty> = { ...FacultyData }
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
       const nameKey = `name.${key}` as keyof Partial<IFaculty>
-      ;(updateFacultyData as any)[nameKey] = name[key as keyof typeof name]
+      ;(updatedFacultyData as any)[nameKey] = name[key as keyof typeof name]
     })
   }
 
-  const result = await Faculty.findOneAndUpdate({ id }, updateFacultyData, {
+  const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
     new: true,
   })
-
   return result
 }
 
