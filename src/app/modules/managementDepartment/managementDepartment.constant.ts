@@ -1,3 +1,3 @@
-export type managementDepartmentFilterableFields = ['searchTerm', 'Title']
+export const managementDepartmentFilterableFields = ['searchTerm', 'Title']
 
-export type managementDepartmentSearchableFields = ['title']
+export const managementDepartmentSearchableFields = ['title']

@@ -13,4 +13,6 @@ router.post(
   ManagementDepartmentController.createManagementDepartment,
 )
 
+router.get('/', ManagementDepartmentController.getAllManagementDepartments)
+
 export const ManagementDepartmentRoutes = router
