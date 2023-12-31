@@ -199,6 +199,21 @@
             "date": 1703948567123,
             "name": "D:\\Next Level Web Development\\project\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-30-12-21-success.log",
             "hash": "308b29b47fe2d3ff052a9eefd4266e0d23fa755026251f7aaf8535eb6b9ae2db"
+        },
+        {
+            "date": 1704009359435,
+            "name": "D:\\Next Level Web Development\\project\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-31-12-13-success.log",
+            "hash": "eb3fffa50a4fda032af8c5660b16ed837f4e43359c48a2c7c9ce60206028cdb0"
+        },
+        {
+            "date": 1704010202125,
+            "name": "D:\\Next Level Web Development\\project\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-31-12-14-success.log",
+            "hash": "950dc99e86175bb247a29f420c394e3633f23e348e31afc52153dc105143809d"
+        },
+        {
+            "date": 1704014078336,
+            "name": "D:\\Next Level Web Development\\project\\university-management-auth-service\\logs\\winston\\successes\\phu-2023-31-12-15-success.log",
+            "hash": "18c4668c8a64e282a401839498def09dd038b46c57a7375011de69946a3b13e5"
         }
     ],
     "hashType": "sha256"
