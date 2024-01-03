@@ -6,4 +6,6 @@ const router = express.Router()
 router.get('/:id', AdminController.getSingleAdmin)
 router.get('/', AdminController.getAllAdmins)
 
+router.delete('/:id', AdminController.deleteAdmin)
+
 export const AdminRoutes = router
