@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { SortOrder } from 'mongoose'
 import { paginationHelpers } from '../../../Helpers/paginationHelpers'
 import { IGenericResponse } from '../../../interfaces/common'
@@ -70,6 +71,33 @@ const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
   return result
 }
 
+const updateAdmin = async (
+  id: string,
+  payload: Partial<IAdmin>,
+): Promise<IAdmin | null> => {
+  const isExist = await Admin.findOne({ id })
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !')
+  }
+
+  const { name, ...adminData } = payload
+
+  const updatedAdminData: Partial<IAdmin> = { ...adminData }
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}` as keyof Partial<IAdmin>
+      ;(updatedAdminData as any)[nameKey] = name[key as keyof typeof name]
+    })
+  }
+
+  const result = await Admin.findOneAndUpdate({ id }, updatedAdminData, {
+    new: true,
+  })
+  return result
+}
+
 const deleteAdmin = async (id: string): Promise<IAdmin> => {
   // check if the faculty is exist
   const isExist = await Admin.findOne({ id })
@@ -105,5 +133,6 @@ const deleteAdmin = async (id: string): Promise<IAdmin> => {
 export const AdminService = {
   getAllAdmins,
   getSingleAdmin,
+  updateAdmin,
   deleteAdmin,
 }
